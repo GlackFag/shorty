@@ -1,6 +1,8 @@
 package com.glackfag.shorty.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.glackfag.shorty.models.Association;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,13 @@ public class RedisConfiguration {
     @Value("${spring.redis.password}")
     private String redisPassword;
 
+    private final ObjectMapper objectMapper;
+
+    @Autowired
+    public RedisConfiguration(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Bean
     public LettuceConnectionFactory redisConnectionFactory(){
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
@@ -32,14 +41,17 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public RedisTemplate<String, Association> redisTemplate(){
+    public RedisTemplate<String, Association> redisTemplate() {
         RedisTemplate<String, Association> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory());
 
+        Jackson2JsonRedisSerializer<Association> valueSerializer =
+                new Jackson2JsonRedisSerializer<>(objectMapper ,Association.class);
+
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Association.class));
+        template.setValueSerializer(valueSerializer);
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Association.class));
+        template.setHashValueSerializer(valueSerializer);
 
         return template;
     }

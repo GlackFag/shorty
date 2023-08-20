@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shorty - stats</title>
+</head>
+<body>
+<main>
+    <b th:text="${'Statistics for: ' + association.getAlias()}"></b>
+    <div class="destination-info">
+        <p>Destination url:</p>
+        <a th:text="${association.getDestination()}" th:href="${association.getDestination()}"></a>
+    </div>
+    <div class="usages-info">
+        <p th:text="${'Usages:' +  association.getUsages()}"></p>
+        <p th:text="${'Last usage: ' + association.getLastUsage()}"></p>
+    </div>
+</main>
+</body>
+</html>

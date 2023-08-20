@@ -33,9 +33,9 @@ public class AssociationValidator implements Validator {
 
         if(associationService.isAliasAssociatedWithDifferentDestination(association.getAlias(), association.getDestination()))
             ErrorTranslator.translateError(errors, ErrorConstants.ALIAS_IS_ALREADY_USED);
-
         if(reservedPaths.contains(association.getAlias()))
             ErrorTranslator.translateError(errors, ErrorConstants.ALIAS_IS_RESERVED);
+        if(association.getAlias().matches("^[a-zA-Z0-9._]+$"))
+            ErrorTranslator.translateError(errors, ErrorConstants.ALIAS_CONTAINS_RESERVED_CHAR);
     }
-
 }

@@ -2,13 +2,14 @@ package com.glackfag.shorty.controllers;
 
 import com.glackfag.shorty.models.Association;
 import com.glackfag.shorty.services.AssociationService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
@@ -22,14 +23,15 @@ public class StatsController {
     }
 
     @GetMapping
-    public String showStats(@RequestParam String alias, Model model) {
-        Optional<Association> association = associationService.findOne(alias);
+    public String showStats(HttpServletRequest request, Model model) {
+        try {
+            String alias = request.getParameterNames().asIterator().next();
+            Optional<Association> association = associationService.findOne(alias);
 
-        if (association.isPresent()) {
-            model.addAttribute("association", association.get());
-            return "successPage";
+            model.addAttribute("association", association.orElseThrow());
+            return "stats";
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
         }
-
-        return null;
     }
 }
