@@ -48,7 +48,7 @@ public class ReportService {
         jpaRepository.save(report);
         associationService.save(association);
 
-        log.info("Saved report:" + report.toString());
+        log.info("Saved report:" + report);
 
         return associationBanner.banIfNeeded(association);
     }

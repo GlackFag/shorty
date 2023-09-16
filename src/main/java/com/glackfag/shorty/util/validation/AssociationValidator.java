@@ -4,6 +4,7 @@ import com.glackfag.shorty.models.Association;
 import com.glackfag.shorty.services.AssociationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -23,12 +24,12 @@ public class AssociationValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(@NonNull Class<?> clazz) {
         return clazz == Association.class;
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NonNull Object target, @NonNull Errors errors) {
         Association association = (Association) target;
 
         if(associationService.existsByAliasAndDestinationNot(association.getAlias(), association.getDestination()))
