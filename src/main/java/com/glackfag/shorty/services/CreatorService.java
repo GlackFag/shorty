@@ -1,7 +1,7 @@
 package com.glackfag.shorty.services;
 
 import com.glackfag.shorty.controllers.ApiController;
-import com.glackfag.shorty.repositories.CreatorRepository;
+import com.glackfag.shorty.repositories.jpa.CreatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

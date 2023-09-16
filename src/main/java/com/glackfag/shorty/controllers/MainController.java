@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +40,21 @@ public class MainController {
     }
 
     @GetMapping("/{alias}")
-    public String redirect(@PathVariable("alias") String alias) {
+    public String redirect(@PathVariable("alias") String alias, Model model) {
         Optional<Association> association = associationService.findOne(alias);
 
         if (association.isEmpty())
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "entity not found");
 
-        associationService.updateStats(alias);
+        if (association.get().isBanned()) {
+            log.info(String.format("Requested banned alias '%s'", alias));
+
+            model.addAttribute("url", association.get().getDestination());
+            return "banned";
+        }
+
+        associationService.updateUsageStats(alias);
 
         return "redirect:" + association.get().getDestination();
     }

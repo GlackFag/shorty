@@ -31,7 +31,7 @@ public class AssociationValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Association association = (Association) target;
 
-        if(associationService.isAliasAssociatedWithDifferentDestination(association.getAlias(), association.getDestination()))
+        if(associationService.existsByAliasAndDestinationNot(association.getAlias(), association.getDestination()))
             ErrorTranslator.translateError(errors, ErrorConstants.ALIAS_IS_ALREADY_USED);
         if(reservedPaths.contains(association.getAlias()))
             ErrorTranslator.translateError(errors, ErrorConstants.ALIAS_IS_RESERVED);

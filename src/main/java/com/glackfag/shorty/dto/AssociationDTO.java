@@ -15,8 +15,9 @@ public class AssociationDTO implements Serializable {
     @URL
     private String destination;
     private String alias;
+    private Long creatorId;
     private LocalDate lastUsage;
     private Integer usages;
-    private Long creatorId;
+    private Integer reports;
 }
 

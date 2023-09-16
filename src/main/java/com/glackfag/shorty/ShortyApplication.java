@@ -8,13 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
 @SpringBootApplication
 @EnableWebMvc
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "com.glackfag.shorty.repositories.jpa")
+@EnableRedisRepositories(basePackages = "com.glackfag.shorty.repositories.redis")
 @Configuration
 public class ShortyApplication {
     private final Environment environment;

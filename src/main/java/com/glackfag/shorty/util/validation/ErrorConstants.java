@@ -2,7 +2,7 @@ package com.glackfag.shorty.util.validation;
 
 import org.springframework.validation.FieldError;
 
-public interface ErrorConstants {
+interface ErrorConstants {
     FieldError ALIAS_IS_ALREADY_USED = new FieldError("", "alias", null,
             false, new String[]{"AlreadyUsed"}, new Object[0], "Such alias is already used.");
 

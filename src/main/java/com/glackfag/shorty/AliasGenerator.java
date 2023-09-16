@@ -26,8 +26,9 @@ public class AliasGenerator {
             int rand2 = random.nextInt();
 
             alias = Integer.toHexString(Objects.hash(rand1, rand2, association.getDestination(), alias));
-        } while (associationService.existsByAliasAndCreatorNot(alias, association.getCreatorId()) ||
-                associationService.isAliasAssociatedWithDifferentDestination(alias, association.getDestination()));
+
+            association.setAlias(alias);
+        } while (associationService.isValidForCreation(association));
 
         return alias;
     }

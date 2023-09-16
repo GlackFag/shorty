@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #e74c3c;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #23a6a6;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #10a6a6;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Warning</h1>
+    <p>This shortening was reported many times, the page might be harmful. Are you sure you want to continue?</p>
+    <div class="button-container">
+        <button id="continueButton">Continue (<span id="countdown">5</span>)</button>
+    </div>
+</div>
+
+<script>
+    let url = "[[${url}]]";
+
+    let countdown = 5;
+
+    window.onload = function () {
+        startCountdown();
+    };
+
+    function startCountdown() {
+        const continueButton = document.getElementById("continueButton");
+        const countdownElement = document.getElementById("countdown");
+
+        const countdownInterval = setInterval(() => {
+            countdown--;
+
+            if (countdown > 0) {
+                countdownElement.innerText = countdown;
+            } else {
+                clearInterval(countdownInterval);
+                countdownElement.innerText = "0";
+                continueButton.removeAttribute("disabled");
+                const buttonContent = continueButton.textContent;
+                continueButton.textContent = buttonContent.replace(/\(\d+\)/, '');
+            }
+        }, 1000);
+
+        continueButton.addEventListener("click", function () {
+            if (countdown <= 0) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>
+</body>
+</html>
